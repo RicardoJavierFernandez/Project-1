@@ -44,7 +44,7 @@ $.ajax({
 });
 
 
-function displayMap(name, latitude ,longitude, mapId)
+function displayMap(name, latitude, longitude, mapId)
 {
     var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}` 
     var googleMap = $('<span>').text(name);
