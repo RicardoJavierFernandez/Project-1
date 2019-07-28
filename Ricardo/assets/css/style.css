@@ -31,3 +31,13 @@ input {
     width: 60px;
     font-size: 16px;
 }
+
+.conditions {
+    height: 30px;
+    width: 250px;
+    font-size: 16px;
+}
+
+img {
+    margin: 2px;
+}
