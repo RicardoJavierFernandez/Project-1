@@ -14,7 +14,10 @@ input {
 }
 
 .topnav {
+    position: fixed;
+    width: 100%;
     top: 0;
+    left: 0;
     margin-bottom: 20px;
     height: 100px;
     background: mediumseagreen;
@@ -36,8 +39,19 @@ input {
     height: 30px;
     width: 250px;
     font-size: 16px;
+    margin-left: 20px;
 }
 
-img {
-    margin: 2px;
+.map {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 1em;
+    margin-top: 125px;
+}
+
+.map span {
+    margin: auto;
+    display: inline-grid;
+    text-align: center;
 }

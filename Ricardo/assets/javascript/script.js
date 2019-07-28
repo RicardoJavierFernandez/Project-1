@@ -1,4 +1,4 @@
-// BETTER DOCTOR API VARIABLES -----------------------------------------------------------------------------------------------------------------------
+// BETTER DOCTOR API VARIABLES ---------------------------------------------------------------------------------------------------------------------
 const doctors_api_key = '2a424d77579d56c5cb91ae9794c57995';
 var doctorsConditions = 'https://api.betterdoctor.com/2016-03-01/conditions?user_key=' + doctors_api_key;
 // -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ for (state of states)
 }
 
 
-// FUNCTION gets all conditions in the BetterDoctor API
+// FUNCTION gets all conditions in the BetterDoctor API and creates a drop down list of the conditions
 $.ajax({
     method: "GET",
     url: doctorsConditions
@@ -31,6 +31,7 @@ $.ajax({
     
     var data = response.data
     
+    // Add elements to the medicalConditions array
     for (let i=0; i < data.length; i++)
     {
         medicalConditions.push(data[i].name)
@@ -45,90 +46,11 @@ $.ajax({
 });
 
 
-function searchLocation(city, state)
+function displayMap(name, latitude ,longitude, mapId)
 {
-    return (state.toLowerCase() + '-' + city.toLowerCase());
-}
-
-// EVENT on the dropdown list 
-// $('#better-doctor-values').on('change', function()
-// {
-//     $('#input-search').attr('placeholder', 'Search ' + toTitleCase($(this).val()));
-// });
-
-
-$('#btn-search').on('click', function()
-{
-    
-    var dropDownSelection = $('#better-doctor-values').val();
-    var searchParameter = $('.conditions').val();
-    var cityName = $('#location-search').val();
-    var stateSelection = $('.states').val();
-
-    if (cityName.length > 0 & searchParameter.length > 0)
-    {
-        betterDoctorsSearch(dropDownSelection, searchLocation(cityName, stateSelection));
-    }
-    else
-    {
-        alert("Please type in a word in the search box and city location");
-    }
-    
-});
-
-
-function betterDoctorsSearch(category, userLocation)
-{
-    var locationSearch = userLocation //format is state abbreviation - city (i.e. fl-miami, ca-san francisco)
-    var searchField;
-    doctorLocations = [];
-    if (category === 'doctors')
-    {
-        searchField = 'doctors';
-        searchUrl = `https://api.betterdoctor.com/2016-03-01/doctors?location=${locationSearch}&skip=0&limit=10&user_key=${doctors_api_key}`;
-    }
-    else if (category === 'conditions')
-    {
-        searchField = 'conditions';
-        searchUrl = doctorsConditions;
-    }
-    else 
-    {
-        searchField = 'insurance'
-        searchUrl = 'https://api.betterdoctor.com/2016-03-01/insurances?skip=0&limit=10&user_key=' + doctors_api_key;
-    }
-  
-    $.ajax({
-        method: "GET",
-        url: searchUrl
-    }).then(function(response){
-        
-        // console.log(response.data);
-        var doctorsName;
-        var doctorsLatitude;
-        var doctorsLongitude
-        var data = response.data
-        console.log(data);
-        for (let i = 0; i < data.length; i++)
-        {
-            doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
-            for (let a = 0; a < data[a].practices.length; a++)
-            {
-                doctorsLatitude = data[a].practices[a].lat;
-                doctorsLongitude = data[a].practices[a].lon;
-    
-                displayMap(doctorsLatitude, doctorsLongitude, i);
-                console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
-            }
-        }
-    });
-}
-
-
-function displayMap(latitude ,longitude, mapId)
-{
-    var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=` + google_maps_api
-    var googleMap = $('<img>').attr('src', googleMapsUrl);
+    var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}` 
+    var googleMap = $('<span>').text(name);
+    googleMap.append($('<img>').attr('src', googleMapsUrl));
     $('.map').append(googleMap);
 };
 
@@ -143,6 +65,66 @@ function toTitleCase(word)
     return wordArray.join(' ')
 }
 
+
+function searchLocation(city, state)
+{
+    return (state.toLowerCase() + '-' + city.toLowerCase().replace(' ', '-')); // Use replace method to make sure the city string passed to the better doctor api is in the correct format with no spaces
+}
+
+
+$('#btn-search').on('click', function()
+{    
+    var dropDownSelection = $('#better-doctor-values').val();
+    var selectedCondition = $('.conditions').val(); // drop down list value
+    var cityName = $('#location-search').val(); // user input for city name. need to update to adjust for mispelling. may need to use googles maps auto-fill feature
+    var stateSelection = $('.states').val(); // drop down list value
+
+    if (cityName.length > 0)
+    {
+        betterDoctorsSearch(selectedCondition, searchLocation(cityName, stateSelection));
+    }
+    else
+    {
+        alert("Please type in a city location");
+    }
+    
+});
+
+
+function betterDoctorsSearch(medicalCondition, userLocation)
+{
+    var locationSearch = userLocation //format is state abbreviation - city (i.e. fl-miami, ca-san francisco)
+    var searchUrl = `https://api.betterdoctor.com/2016-03-01/doctors?query=${medicalCondition}&location=${locationSearch}&skip=0&limit=10&user_key=${doctors_api_key}`;
+  
+    $.ajax({
+        method: "GET",
+        url: searchUrl
+    }).then(function(response){
+        
+        // console.log(response.data);
+        var doctorsName;
+        var doctorsLatitude;
+        var doctorsLongitude
+        var data = response.data
+        console.log(data);
+
+        // Loop through each doctor in the response data
+        for (var i = 0; i < data.length; i++)
+        {
+            doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
+            
+            // Loop through the array of practices each doctor has
+            for (var a = 0; a < data[i].practices.length; a++)
+            {
+                doctorsLatitude = data[i].practices[a].lat;
+                doctorsLongitude = data[i].practices[a].lon;
+                displayMap(doctorsName, doctorsLatitude, doctorsLongitude, i);
+                
+                // console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
+            }
+        }
+    });
+}
 
 
 // function autocomplete(inp, arr)
