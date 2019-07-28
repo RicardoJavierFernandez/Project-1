@@ -1,0 +1,71 @@
+With your group, answer each of the following questions:
+Q: Who is your target audience?
+A: Anyone who has a symptom and is looking for a doctor to treat the symptoms.
+
+Q: What is the problem that the product will address?
+A: Having a one stop
+
+What is the primary goal of the product?
+Identify and prioritize essential user stories (limit this to 3 or fewer)?
+
+
+
+
+
+curl -u "username:password" -H "Content-Type: application/json" -H "Accept: application/json" -d '{"foo":"bar"}' http://www.example.com/api
+
+"https://ridb.recreation.gov/api/v1/activities?limit=50&offset=0" -H "accept: application/json" -H "apikey: 6dfad929-ea74-4b71-8715-bba8abd2517b"
+
+$.ajax({
+    url: "http://www.example.com/api",
+    beforeSend: function(xhr) { 
+      xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password")); 
+    },
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: {foo:"bar"},
+    success: function (data) {
+      alert(JSON.stringify(data));
+    },
+    error: function(){
+      alert("Cannot get data");
+    }
+});
+
+GOOD one below:
+
+$.ajax({
+    url: "http://www.example.com/api",
+    beforeSend: function(xhr) { 
+      xhr.setRequestHeader("Authorization", "Basic " + btoa("username:password")); 
+    },
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    processData: false,
+    data: '{"foo":"bar"}',
+    success: function (data) {
+      alert(JSON.stringify(data));
+    },
+    error: function(){
+      alert("Cannot get data");
+    }
+});
+
+$.ajax({
+    url: "https://ridb.recreation.gov/api/v1/activities?limit=50&offset=0",
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization", "apikey: 6dfad929-ea74-4b71-8715-bba8abd2517b")
+    },
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    processData: false,
+    success: function(data){
+        alert(JSON.stringify(data));
+    },
+    error: function() {
+        alert("Cannot get data")
+    } 
+});

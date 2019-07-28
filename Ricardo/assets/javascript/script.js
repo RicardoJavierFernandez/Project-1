@@ -64,6 +64,7 @@ $('.map').append(googleMap);
 
 // 37.773,-122.413
 
+<<<<<<< HEAD
 // Run ajax request for doctors before running the one for google maps
 // $.ajax({
 // method: "GET",
@@ -114,3 +115,34 @@ function betterDoctorsSearch(category)
 
 
 // Return a map using the doctors address. Look for pharmacies in the area and plan a route.
+=======
+
+$.ajax({
+method: "GET",
+url: doctorsUrl
+}).then(function(response)
+{
+console.log(response);
+// Capture the latitude through the doctors api
+console.log(response.data[0].practices[0].lat);
+// Capture the longitude the doctors api
+console.log(response.data[0].practices[0].lon);
+});
+
+
+
+
+// User types into an input box with a symtom. The input box should drop down with recommendations of the symptom
+// When the user 
+
+// https://www.doximity.com/developers/home'
+// https://rapidapi.com/palanen/api/betterdoctor-doctor-and-provider-data
+// https://developer.betterdoctor.com/
+// https://developer.betterdoctor.com/code-samples
+// https://cloud.google.com/maps-platform/pricing/
+
+// Health application where the user searches a medical condition. The user gets back information about the 
+// condition and they will also receive a list of doctors in the area with information about the doctors.
+
+// Return a map using the doctors address. Look for pharmacies in the area and plan a route.
+>>>>>>> 3229484e5c7f0ad9c3f589e34c3bd5bee31a8f4a
