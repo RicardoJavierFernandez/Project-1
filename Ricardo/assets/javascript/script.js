@@ -42,8 +42,7 @@ $.ajax({
 
 function searchLocation(city, state)
 {
-    
-    console.log(state.toLowerCase() + '-' + city.toLowerCase())
+    return (state.toLowerCase() + '-' + city.toLowerCase());
 }
 
 // EVENT on the dropdown list 
@@ -58,24 +57,88 @@ $('#btn-search').on('click', function()
 {
     
     var dropDownSelection = $('#better-doctor-values').val();
-    var citySelection = $('#location-search').val();
+    var searchParameter = $('#input-search').val()
+    var cityName = $('#location-search').val();
     var stateSelection = $('.states').val();
 
-    searchLocation(citySelection, stateSelection);
-    // console.log(stateSelection.toLowerCase() + '-' + citySelection.toLowerCase());
-    // change the placeholder value depending on the dropdown list item selected 
+    if (cityName.length > 0 & searchParameter.length > 0)
+    {
+        betterDoctorsSearch(dropDownSelection, searchLocation(cityName, stateSelection));
+    }
+    else
+    {
+        alert("Please type in a word in the search box and city location");
+    }
     
-    // betterDoctorsSearch(dropDownSelection, locationSearch);
-
-    // searchLocation()
 });
 
 
+function betterDoctorsSearch(category, userLocation)
+{
+    var locationSearch = userLocation
+    var searchField;
+    doctorLocations = [];
+    if (category === 'doctors')
+    {
+        searchField = 'doctors';
+        searchUrl = `https://api.betterdoctor.com/2016-03-01/doctors?location=${locationSearch}&skip=0&limit=10&user_key=${doctors_api_key}`;
+    }
+    else if (category === 'conditions')
+    {
+        searchField = 'conditions';
+        searchUrl = 'https://api.betterdoctor.com/2016-03-01/conditions?user_key=' + doctors_api_key;
+    }
+    else 
+    {
+        searchField = 'insurance'
+        searchUrl = 'https://api.betterdoctor.com/2016-03-01/insurances?skip=0&limit=10&user_key=' + doctors_api_key;
+    }
+  
+    $.ajax({
+        method: "GET",
+        url: searchUrl
+    }).then(function(response){
+        
+        console.log(response.data);
+        data = response.data
+        var doctorsName = data[0].profile.first_name + ' ' + data[0].profile.last_name + ', ' + data[0].profile.title;
+        var doctorsLatitude = data[0].practices[0].lat;
+        var doctorsLongitude = data[0].practices[0].lon;
 
-// var googleMap = $('<img>');
-// googleMap.attr('src', googleMapsUrl);
+        displayMap(doctorsLatitude, doctorsLongitude);
+        console.log(doctorsName, doctorsLatitude, doctorsLongitude);
+        
+        // for (let i=0; i < data.length; i++)
+        // {
+        //     doctorsName = data[i].profile.first_name + data[i].profile.last_name + data[i].profile.title
+        //     console.log(doctorsName, data[i].practices);
+        // }
+    });
+}
 
-// $('.map').append(googleMap);
+
+function displayMap(latitude ,longitude)
+{
+    var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=12&size=400x400&key=` + google_maps_api
+    var googleMap = $('<img>').attr('src', googleMapsUrl);
+    // googleMap.attr('src', googleMapsUrl);
+    $('.map').append(googleMap);
+};
+
+// displayMap('miami', 'fl')
+
+function toTitleCase(word)
+{
+    var wordArray = word.toLowerCase().split(' ');
+    for (let i = 0; i < wordArray.length; i++)
+    {
+        wordArray[i] = wordArray[i].charAt(0).toUpperCase() + wordArray[i].slice(1);
+    }
+    return wordArray.join(' ')
+}
+
+
+
 
 // 1. Use doctors api to be able to show on the html page
 // 2. find out how to extract the 
@@ -100,51 +163,6 @@ $('#btn-search').on('click', function()
 // // console.log(response.data[0].practices[0].lon);
 // });
 
-function betterDoctorsSearch(category, userLocation)
-{
-    var locationSearch = userLocation
-    var searchField;
-    if (category === 'doctors')
-    {
-        searchField = 'doctors';
-        searchUrl = `https://api.betterdoctor.com/2016-03-01/doctors?location=${locationSearch},100&skip=2&limit=10&user_key=` + doctors_api_key;
-    }
-    else if (category === 'conditions')
-    {
-        searchField = 'conditions';
-        searchUrl = 'https://api.betterdoctor.com/2016-03-01/conditions?user_key=' + doctors_api_key;
-    }
-    else 
-    {
-        searchField = 'insurance'
-        searchUrl = 'https://api.betterdoctor.com/2016-03-01/insurances?skip=0&limit=10&user_key=' + doctors_api_key;
-    }
-  
-    $.ajax({
-        method: "GET",
-        url: searchUrl
-    }).then(function(response){
-        
-        console.log(response.data);
-        // data = response.data
-        
-        // for (let i=0; i < data.length; i++)
-        // {
-        //     console.log(data[i].name);
-        // }
-    });
-}
-
-
-function toTitleCase(word)
-{
-    var wordArray = word.toLowerCase().split(' ');
-    for (let i = 0; i < wordArray.length; i++)
-    {
-        wordArray[i] = wordArray[i].charAt(0).toUpperCase() + wordArray[i].slice(1);
-    }
-    return wordArray.join(' ')
-}
 
 
 // function autocomplete(inp, arr)
