@@ -3,3 +3,4 @@ https://rapidapi.com/palanen/api/betterdoctor-doctor-and-provider-data
 https://developer.betterdoctor.com/
 https://developer.betterdoctor.com/code-samples
 https://cloud.google.com/maps-platform/pricing/
+https://developers.google.com/maps/documentation/maps-static/dev-guide#Markers

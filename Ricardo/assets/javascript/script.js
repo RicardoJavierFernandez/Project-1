@@ -5,8 +5,7 @@ var doctorsConditions = 'https://api.betterdoctor.com/2016-03-01/conditions?user
 
 
 // GOOGLE MAPS VARIABLES ---------------------------------------------------------------------------------------------------------------------------
-const google_maps_api = 'AIzaSyDsCDKZW5hk6Bn6bxiIKnBMUMUB82TAlaM'; // need to have account upgraded for billing in order for this feature to work
-var googleMapsUrl = 'https://maps.googleapis.com/maps/api/staticmap?center=37.773%2c%20-122.413&zoom=12&size=400x400&key=' + google_maps_api
+const google_maps_api = 'AIzaSyDsCDKZW5hk6Bn6bxiIKnBMUMUB82TAlaM'; // api key is restricted for use by certain ip addresses only. 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
 var medicalConditions = [];
@@ -32,16 +31,15 @@ $.ajax({
     var data = response.data
     
     // Add elements to the medicalConditions array
-    for (let i=0; i < data.length; i++)
+    for (let i = 0; i < data.length; i++)
     {
-        medicalConditions.push(data[i].name)
+        medicalConditions.push(data[i].name);
     }
 
     // Create drop down list of medical conditions returned by the BetterDoctor api
     for (condition of medicalConditions.sort())
     {
-        
-        $('.conditions').append('<option value=' + String(condition) + '>' + String(condition) + '</options>')
+        $('.conditions').append('<option value=' + String(condition) + '>' + String(condition) + '</options>');
     }
 });
 
@@ -93,7 +91,7 @@ $('#btn-search').on('click', function()
 
 function betterDoctorsSearch(medicalCondition, userLocation)
 {
-    var locationSearch = userLocation //format is state abbreviation - city (i.e. fl-miami, ca-san francisco)
+    var locationSearch = userLocation; //format is "state abbreviation-city" (i.e. fl-miami, ca-san-francisco, ny-new-york)
     var searchUrl = `https://api.betterdoctor.com/2016-03-01/doctors?query=${medicalCondition}&location=${locationSearch}&skip=0&limit=10&user_key=${doctors_api_key}`;
   
     $.ajax({
@@ -108,6 +106,7 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         var data = response.data
         console.log(data);
 
+        var count = 0;
         // Loop through each doctor in the response data
         for (var i = 0; i < data.length; i++)
         {
@@ -118,11 +117,13 @@ function betterDoctorsSearch(medicalCondition, userLocation)
             {
                 doctorsLatitude = data[i].practices[a].lat;
                 doctorsLongitude = data[i].practices[a].lon;
-                displayMap(doctorsName, doctorsLatitude, doctorsLongitude, i);
-                
+                displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
+
+                count++;
                 // console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
             }
         }
+        $('#number-results').text(count + ' matches')
     });
 }
 
