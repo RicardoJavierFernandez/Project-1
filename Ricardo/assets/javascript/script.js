@@ -18,7 +18,7 @@ var states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
 // Create a dropdown list with all the state abbreviations
 for (state of states)
 {
-    $('.states').append('<option value=' + String(state) + '>' + String(state) + '</options>')
+    $('.states').append('<option value=' + String(state) + '>' + String(state) + '</options>');
 }
 
 
@@ -28,7 +28,7 @@ $.ajax({
     url: doctorsConditions
 }).then(function(response){
     
-    var data = response.data
+    var data = response.data;
     
     // Add elements to the medicalConditions array
     for (let i = 0; i < data.length; i++)
@@ -46,12 +46,13 @@ $.ajax({
 
 function displayMap(name, latitude, longitude, mapId)
 {
-    var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}` 
+    var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}`;
     var googleMap = $('<span>').text(name);
     googleMap.append($('<img>').attr('src', googleMapsUrl));
     $('.map').append(googleMap);
 };
 
+"40.1222, 70.8885"
 
 function toTitleCase(word)
 {
@@ -72,7 +73,6 @@ function searchLocation(city, state)
 
 $('#btn-search').on('click', function()
 {    
-    var dropDownSelection = $('#better-doctor-values').val();
     var selectedCondition = $('.conditions').val(); // drop down list value
     var cityName = $('#location-search').val(); // user input for city name. need to update to adjust for mispelling. may need to use googles maps auto-fill feature
     var stateSelection = $('.states').val(); // drop down list value
@@ -99,12 +99,11 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         url: searchUrl
     }).then(function(response){
         
-        // console.log(response.data);
         var doctorsName;
         var doctorsLatitude;
         var doctorsLongitude
         var data = response.data
-        console.log(data);
+        // console.log(data);
 
         var count = 0;
         // Loop through each doctor in the response data
