@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<h1>  
+    <img src= "https://pixabay.com/photos/aerial-view-computer-desk-device-3292550.jpg/" alt="stethoscope"style="width:128px;height:128px;"></h1>
+<body>
+    <link rel="stylesheet" type= text/css href="style.css">
+        <div class="container">
+         
+ </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+var doctor = "";
+var api_key = '395934355af808ec788179e0c311b90e';
+var queryURL = 'https://api.betterdoctor.com/2016-03-01/specialties?skip=0&limit=20&user_key=' + api_key;
+// add dropped down and or search bar to search for specialty
+// $.ajax({
+//       url: queryURL,
+//       method: "GET"
+//     }).then(function(response) {
+//         var Name = $("<td>").text(response.Name);
+//       var Tittle = $("<td>").text(response.Tittle);
+//       var Specialties = $("<td>").text(response.Specialties);
+//       console.log (response)
+//     });
+
+    var condition = "";
+var api_key = '395934355af808ec788179e0c311b90e';
+var queryURL2 = 'https://api.betterdoctor.com/2016-03-01/conditions?user_key=' + api_key;
+// add dropped down and or search bar to search for specialty
+$.ajax({
+      url: queryURL2,
+      method: "GET"
+    }).then(function(conditions) {
+      //   var conditionName = $("<td>").text(condition.Name);
+      // var Uid = $("<td>").text(Uid.Tittle);
+          //  console.log (conditions);
+          // console.log (conditions.data);
+          for (i = 0; i< conditions.data.length; i++){
+        console.log (conditions.data[i].name)
+          }
+    })
+        
+
+        
+
+  </script>
+</body>
+<h5>
+
+    <div class="container">
+        <div class="row">
+          <div class="col-sm">
+           Symptoms
+          </div>
+          <div class="col-sm">
+            City
+          </div>
+          <div class="col-sm">
+           state
+          </div>
+        </div>
+      </div>
+   
+</h5>
+
+</html>
+
+
+
