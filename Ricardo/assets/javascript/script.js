@@ -47,12 +47,17 @@ $.ajax({
 function displayMap(name, latitude, longitude, mapId)
 {
     var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}`;
-    var googleMap = $('<span>').text(name);
+    var googleMap = $('<span>').html('<a href="" class="doctor-profile">' + name + '</a>') //text(name);html('<a href="" class="doctor-profile">' + name + '</a>');
     googleMap.append($('<img>').attr('src', googleMapsUrl));
     $('.map').append(googleMap);
+
 };
 
-"40.1222, 70.8885"
+$('body').on('click','.doctor-profile', function(e){
+    e.preventDefault();
+    alert("Test!");
+});
+
 
 function toTitleCase(word)
 {
@@ -101,18 +106,24 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         
         var doctorsName;
         var doctorsLatitude;
-        var doctorsLongitude
-        var data = response.data
+        var doctorsLongitude;
+        var data = response.data;
+        var doctorInsurance = [];
         // console.log(data);
-
+        console.log(data);
         var count = 0;
         // Loop through each doctor in the response data
         for (var i = 0; i < data.length; i++)
         {
             doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
             
+            for (let a = 0; a < data[i].insurances.length; a++)
+            {
+                console.log(data[i].insurances[a].insurance_plan.name);
+            }
+
             // Loop through the array of practices each doctor has
-            for (var a = 0; a < data[i].practices.length; a++)
+            for (let a = 0; a < data[i].practices.length; a++)
             {
                 doctorsLatitude = data[i].practices[a].lat;
                 doctorsLongitude = data[i].practices[a].lon;
