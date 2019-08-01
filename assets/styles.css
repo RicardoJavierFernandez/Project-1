@@ -99,6 +99,7 @@ body {
     margin: 0;
     padding: 0;
     color: #000;
+    float: center;
 }
 
 #secondary {
