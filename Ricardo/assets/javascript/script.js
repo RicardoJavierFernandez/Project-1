@@ -15,10 +15,17 @@ var states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
             'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 
             'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
+var stateNames = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 
+                'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 
+                'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 
+                'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 
+                'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 
+                'Washington', 'West', 'Virginia', 'Wisconsin', 'Wyoming']
+
 // Create a dropdown list with all the state abbreviations
-for (state of states)
+for (var i = 0; i < stateNames.length; i++)
 {
-    $('.states').append('<option value=' + String(state) + '>' + String(state) + '</options>');
+    $('.states').append('<option value=' + String(states[i]) + '>' + String(stateNames[i]) + '</options>');
 }
 
 
@@ -55,7 +62,8 @@ function displayMap(name, latitude, longitude, mapId)
 
 $('body').on('click','.doctor-profile', function(e){
     e.preventDefault();
-    alert("Test!");
+    window.open('index.html');
+    // alert("Test!");
 });
 
 
@@ -78,17 +86,23 @@ function searchLocation(city, state)
 
 $('#btn-search').on('click', function()
 {    
+    // if ()
+    if ($('.map').length){
+        $('.map').empty();
+    }
     var selectedCondition = $('.conditions').val(); // drop down list value
     var cityName = $('#location-search').val(); // user input for city name. need to update to adjust for mispelling. may need to use googles maps auto-fill feature
     var stateSelection = $('.states').val(); // drop down list value
 
     if (cityName.length > 0)
     {
+        $('#number-results').empty();
         betterDoctorsSearch(selectedCondition, searchLocation(cityName, stateSelection));
     }
     else
     {
-        alert("Please type in a city location");
+        $('#number-results').text('Please enter a city before submitting.');
+        // alert("Please type in a city location");
     }
     
 });
@@ -109,17 +123,31 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         var doctorsLongitude;
         var data = response.data;
         var doctorInsurance = [];
-        // console.log(data);
-        console.log(data);
+        var doctorRatings = {};
+        console.log(response);
         var count = 0;
         // Loop through each doctor in the response data
         for (var i = 0; i < data.length; i++)
         {
             doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
+            let ratingsData = data[i].ratings
+            
+            for (var b = 0; b < ratingsData.length; b++)
+            {
+                if (ratingsData[b].rating == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    console.log(doctorsName, ratingsData[b].rating);
+                }
+                
+            }
             
             for (let a = 0; a < data[i].insurances.length; a++)
             {
-                console.log(data[i].insurances[a].insurance_plan.name);
+                doctorInsurance.push(data[i].insurances[a].insurance_plan.name);
             }
 
             // Loop through the array of practices each doctor has
@@ -188,3 +216,10 @@ function betterDoctorsSearch(medicalCondition, userLocation)
 
 
 // Return a map using the doctors address. Look for pharmacies in the area and plan a route.
+
+
+// for (var i=0; i < stateNames.length; i++)
+// {
+//     console.log('<a href="# value=' + states[i] + '">' + stateNames[i] +'</a>')
+    
+// }
