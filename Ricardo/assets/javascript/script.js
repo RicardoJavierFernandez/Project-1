@@ -140,82 +140,32 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                 }
                 else
                 {
-                    console.log(doctorsName, ratingsData[b].rating);
+                    doctorRatings[doctorsName] = ratingsData[b].rating;
+                    // console.log(doctorsName, ratingsData[b].rating);
+                    for (let a = 0; a < data[i].insurances.length; a++)
+                    {
+                        doctorInsurance.push(data[i].insurances[a].insurance_plan.name);
+                    }
+
+                    // Loop through the array of practices each doctor has
+                    for (let a = 0; a < data[i].practices.length; a++)
+                    {
+                        doctorsLatitude = data[i].practices[a].lat;
+                        doctorsLongitude = data[i].practices[a].lon;
+                        displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
+
+                        count++;
+                        // console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
+                    }
                 }
-                
-            }
-            
-            for (let a = 0; a < data[i].insurances.length; a++)
-            {
-                doctorInsurance.push(data[i].insurances[a].insurance_plan.name);
-            }
-
-            // Loop through the array of practices each doctor has
-            for (let a = 0; a < data[i].practices.length; a++)
-            {
-                doctorsLatitude = data[i].practices[a].lat;
-                doctorsLongitude = data[i].practices[a].lon;
-                displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
-
-                count++;
-                // console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
             }
         }
         $('#number-results').text(count + ' matches')
+        console.log(doctorRatings);
     });
 }
 
 
-// function autocomplete(inp, arr)
-// {
-//     var currentFocus;
-    
-//     inp.addEventListener('input', function(e)
-//     {
-        
-//         var a, b, i, val = this.value;
-//         closeAllLists();
-//         if (!val)
-//         {
-//             return false;
-//         }
-//         currentFocus = -1;
-
-//         a = document.createElement('div');
-//         a.setAttribute('id', this.id + 'autocomplete-items');
-//         a.setAttribute('class', 'autocomplete-items');
-
-//         this.parentNode.appendChild(a);
-
-//         for (let i = 0; i < arr.length; i++)
-//         {
-//             if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase())
-//             {
-//                 b = document.createElement('div');
-//                 b.innerHTML = '<strong>' + arr[i].substr(0, val.length) + '</strong>';
-//                 b.innerHTML += arr[i].substr(val.length);
-//                 b.innerHTML += '<input type="hidden" value="' + arr[i] + '">';
-//                     b.addEventListener('click', function(e)
-//                     {
-//                         inp.value = this.getElementsByTagName('input')[0].value;
-//                         closeAllLists();
-//                     });
-//                     a.appendChild(b);
-//             }
-//         }
-//     });
-
-//     inp.addEventListener('keydown', function(e)
-//     {
-//         var x = document.getElementById(this.id + 'autocomplete-list');
-//     })
-// }
-
-// autocomplete(document.getElementById('input-search'), medicalConditions);
-
-
-
-// Return a map using the doctors address. Look for pharmacies in the area and plan a route.
 
 
 // for (var i=0; i < stateNames.length; i++)
