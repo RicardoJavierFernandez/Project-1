@@ -20,7 +20,7 @@ $.ajax({
 
 }).then(function(response) {
     console.log(response);
-    $("#primary").append($("<img>").attr("src", mapUrl))
+    $("#map").append($("<img>").attr("src", mapUrl))
     $(".btn").append()
 
 });
