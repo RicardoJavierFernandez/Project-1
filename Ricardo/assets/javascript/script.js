@@ -22,6 +22,8 @@ var stateNames = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Col
                 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 
                 'Washington', 'West', 'Virginia', 'Wisconsin', 'Wyoming']
 
+var betterDoctorCoordinates = [];
+
 // Create a dropdown list with all the state abbreviations
 for (var i = 0; i < stateNames.length; i++)
 {
@@ -86,7 +88,7 @@ function searchLocation(city, state)
 
 $('#btn-search').on('click', function()
 {    
-    // if ()
+    betterDoctorCoordinates = [];
     if ($('.map').length){
         $('.map').empty();
     }
@@ -107,6 +109,21 @@ $('#btn-search').on('click', function()
     
 });
 
+
+function checkDuplicateLocation(doctor)
+{
+    let doctorUnique = String(doctor);
+
+    if (betterDoctorCoordinates.includes(doctorUnique))
+    {
+        return false;
+    }
+    else
+    {
+        betterDoctorCoordinates.push(doctorUnique);
+        return true;
+    }
+}
 
 function betterDoctorsSearch(medicalCondition, userLocation)
 {
@@ -152,9 +169,13 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                     {
                         doctorsLatitude = data[i].practices[a].lat;
                         doctorsLongitude = data[i].practices[a].lon;
-                        displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
-
-                        count++;
+                        if (checkDuplicateLocation(doctorsName, doctorsLatitude, doctorsLongitude))
+                        {
+                            console.log(doctorsName);
+                            displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
+                            count++;
+                        }
+                        
                         // console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
                     }
                 }
