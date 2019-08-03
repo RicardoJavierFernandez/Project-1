@@ -53,10 +53,11 @@ $.ajax({
 });
 
 
-function displayMap(name, rating, latitude, longitude, mapId)
+function displayMap(name, specialty, description, rating, latitude, longitude, mapId)
 {
     var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}`;
-    var googleMap = $('<span>').html('<a href="" class="doctor-profile">' + name + '     Rating: ' + rating + ' / 5</a>') 
+    // var googleMap = $('<span>').html('<a href="" class="doctor-profile">' + name + '     Rating: ' + rating + ' / 5</a>') 
+    var googleMap = $('<span>').html(`<a class="doctor-profile" data-name="${name}" data-specialty="${specialty}" data-description="${description}">${name} Rating: ${rating} / 5</a>`) 
     googleMap.append($('<img>').attr('src', googleMapsUrl));
     $('.map').append(googleMap);
 
@@ -64,8 +65,13 @@ function displayMap(name, rating, latitude, longitude, mapId)
 
 $('body').on('click','.doctor-profile', function(e){
     e.preventDefault();
-    $('')
-    window.open('');
+    let name = $(this).attr('data-name');
+    let specialty = $(this).attr('data-specialty');
+    let description = $(this).attr('data-description')
+    
+    console.log($(this).next());
+    console.log(name, specialty, description);
+
 });
 
 
@@ -177,7 +183,7 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                         doctorsLongitude = data[i].practices[a].lon;
                         if (checkDuplicateLocation(doctorID))
                         {
-                            displayMap(doctorsName, doctorRatings[doctorID], doctorsLatitude, doctorsLongitude, count+1);
+                            displayMap(doctorsName, doctorSpecialty, specialtyDescription, doctorRatings[doctorID], doctorsLatitude, doctorsLongitude, count+1);
                             count++;
                         }
                     }
