@@ -22,7 +22,7 @@ var stateNames = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Col
                 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 
                 'Washington', 'West', 'Virginia', 'Wisconsin', 'Wyoming']
 
-var betterDoctorCoordinates = [];
+var betterDoctorUnique = [];
 
 // Create a dropdown list with all the state abbreviations
 for (var i = 0; i < stateNames.length; i++)
@@ -88,7 +88,7 @@ function searchLocation(city, state)
 
 $('#btn-search').on('click', function()
 {    
-    betterDoctorCoordinates = [];
+    betterDoctorUnique = [];
     if ($('.map').length){
         $('.map').empty();
     }
@@ -112,15 +112,15 @@ $('#btn-search').on('click', function()
 
 function checkDuplicateLocation(doctor)
 {
-    let doctorUnique = String(doctor);
+    let doctorUnique = String(doctor); // make sure to pass in the doctor's unique ID
 
-    if (betterDoctorCoordinates.includes(doctorUnique))
+    if (betterDoctorUnique.includes(doctorUnique))
     {
         return false;
     }
     else
     {
-        betterDoctorCoordinates.push(doctorUnique);
+        betterDoctorUnique.push(doctorUnique);
         return true;
     }
 }
@@ -135,6 +135,7 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         url: searchUrl
     }).then(function(response){
         
+        var doctorID; // add the doctors unique ID
         var doctorsName;
         var doctorsLatitude;
         var doctorsLongitude;
