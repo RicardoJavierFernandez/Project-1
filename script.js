@@ -20,7 +20,7 @@ var stateNames = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Col
                 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 
                 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 
                 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 
-                'Washington', 'West', 'Virginia', 'Wisconsin', 'Wyoming']
+                'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
 var betterDoctorUnique = [];
 
@@ -29,7 +29,6 @@ for (var i = 0; i < stateNames.length; i++)
 {
     $('.states').append('<option value=' + String(states[i]) + '>' + String(stateNames[i]) + '</options>');
 }
-
 
 // FUNCTION gets all conditions in the BetterDoctor API and creates a drop down list of the conditions
 $.ajax({
@@ -63,16 +62,16 @@ function displayMap(name, specialty, description, rating, latitude, longitude, m
 
 };
 
-$('body').on('click','.doctor-profile', function(e){
-    e.preventDefault();
-    let name = $(this).attr('data-name');
-    let specialty = $(this).attr('data-specialty');
-    let description = $(this).attr('data-description')
+// $('body').on('click','.doctor-profile', function(e){
+//     e.preventDefault();
+//     let name = $(this).attr('data-name');
+//     let specialty = $(this).attr('data-specialty');
+//     let description = $(this).attr('data-description')
     
-    console.log($(this).next());
-    console.log(name, specialty, description);
+//     console.log($(this).next());
+//     console.log(name, specialty, description);
 
-});
+// });
 
 
 function toTitleCase(word)
@@ -110,7 +109,6 @@ $('#btn-search').on('click', function()
     else
     {
         $('#number-results').text('Please enter a city before submitting.');
-        // alert("Please type in a city location");
     }
     
 });
