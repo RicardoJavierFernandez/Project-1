@@ -306,72 +306,6 @@ div.wrapper h6 {
 }
 
 
-/* Comments */
-
-#comments {
-    margin-bottom: 40px;
-}
-
-#comments .commentlist {
-    margin: 0;
-    padding: 0;
-}
-
-#comments .commentlist ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-#comments .commentlist li.comment_odd,
-#comments .commentlist li.comment_even {
-    margin: 0 0 10px 0;
-    padding: 15px;
-    list-style: none;
-}
-
-#comments .commentlist li.comment_odd {
-    color: #666666;
-    background-color: #F7F7F7;
-}
-
-#comments .commentlist li.comment_odd a {
-    color: #95AD19;
-    background-color: #F7F7F7;
-}
-
-#comments .commentlist li.comment_even {
-    color: #666666;
-    background-color: #E8E8E8;
-}
-
-#comments .commentlist li.comment_even a {
-    color: #95AD19;
-    background-color: #E8E8E8;
-}
-
-#comments .commentlist .author .name {
-    font-weight: bold;
-}
-
-#comments .commentlist .submitdate {
-    font-size: smaller;
-}
-
-#comments .commentlist p {
-    margin: 10px 5px 10px 0;
-    padding: 0;
-    font-weight: normal;
-    text-transform: none;
-}
-
-#comments .commentlist li .avatar {
-    float: right;
-    border: 1px solid #EEEEEE;
-    margin: 0 0 0 10px;
-}
-
-
 /* ----------------------------------------------Column------------------------------------- */
 
 #column {
@@ -463,35 +397,12 @@ div.wrapper h6 {
 }
 
 #footer .box1 .imgl {
-    border: 1px solid #CCCCCC;
+    border: 1px solid #CCC;
     padding: 5px;
-    color: #FFFFFF;
-    background-color: #000000;
+    color: #FFF;
+    background-color: #000;
 }
 
 #footer .contactdetails li {
-    margin: 0 0 8px 0;
-}
-
-#footer .flickrbox,
-#footer .flickrbox .wrap {
-    display: block;
-    width: 260px;
-}
-
-#footer .flickrbox .wrap .fix {
-    clear: both;
-}
-
-#footer .flickrbox .wrap .flickr_badge_image {
-    display: block;
-    float: left;
-    margin: 0 10px 10px 0;
-    width: 80px;
-    height: 80px;
-}
-
-#footer .flickrbox .wrap #flickr_badge_image3,
-#footer .flickrbox .wrap #flickr_badge_image6 {
-    margin-right: 0;
+    margin: 10px 0;
 }

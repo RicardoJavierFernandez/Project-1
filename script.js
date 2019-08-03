@@ -21,6 +21,6 @@ $.ajax({
 }).then(function(response) {
     console.log(response);
     $("#map").append($("<img>").attr("src", mapUrl))
-    $("#").attr($(".readmore"))
+
 
 });
