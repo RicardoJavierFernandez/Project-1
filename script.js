@@ -53,10 +53,10 @@ $.ajax({
 });
 
 
-function displayMap(name, latitude, longitude, mapId)
+function displayMap(name, rating, latitude, longitude, mapId)
 {
     var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}`;
-    var googleMap = $('<span>').html('<a href="" class="doctor-profile">' + name + '</a>') //text(name);html('<a href="" class="doctor-profile">' + name + '</a>');
+    var googleMap = $('<span>').html('<a href="" class="doctor-profile">' + name + '     Rating: ' + rating + ' / 5</a>') 
     googleMap.append($('<img>').attr('src', googleMapsUrl));
     $('.map').append(googleMap);
 
@@ -65,7 +65,6 @@ function displayMap(name, latitude, longitude, mapId)
 $('body').on('click','.doctor-profile', function(e){
     e.preventDefault();
     window.open('index.html');
-    // alert("Test!");
 });
 
 
@@ -88,9 +87,9 @@ function searchLocation(city, state)
 
 $('#btn-search').on('click', function()
 {    
-    betterDoctorUnique = [];
+    betterDoctorUnique = []; // Array that stores the UIDs of the doctors. Used to filter out duplicate doctors showing up.
     if ($('.map').length){
-        $('.map').empty();
+        $('.map').empty(); // Empty the content of the map div to display the new search results
     }
     var selectedCondition = $('.conditions').val(); // drop down list value
     var cityName = $('#location-search').val(); // user input for city name. need to update to adjust for mispelling. may need to use googles maps auto-fill feature
@@ -98,7 +97,7 @@ $('#btn-search').on('click', function()
 
     if (cityName.length > 0)
     {
-        $('#number-results').empty();
+        $('#number-results').empty(); // 
         betterDoctorsSearch(selectedCondition, searchLocation(cityName, stateSelection));
     }
     else
@@ -110,11 +109,11 @@ $('#btn-search').on('click', function()
 });
 
 
-function checkDuplicateLocation(doctor)
+function checkDuplicateLocation(doctorUniqueID)
 {
-    let doctorUnique = String(doctor); // make sure to pass in the doctor's unique ID
+    let doctorUnique = String(doctorUniqueID); // make sure to pass in the doctor's unique ID
 
-    if (betterDoctorUnique.includes(doctorUnique))
+    if (betterDoctorUnique.includes(doctorUniqueID))
     {
         return false;
     }
@@ -135,19 +134,21 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         url: searchUrl
     }).then(function(response){
         
+        var data = response.data;
         var doctorID; // add the doctors unique ID
         var doctorsName;
         var doctorsLatitude;
         var doctorsLongitude;
-        var data = response.data;
         var doctorInsurance = [];
         var doctorRatings = {};
         console.log(response);
-        var count = 0;
+        var count = 0; // Count variable used to display the number of matches
+
         // Loop through each doctor in the response data
         for (var i = 0; i < data.length; i++)
         {
             doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
+            doctorID = data[i].uid;
             let ratingsData = data[i].ratings
             
             for (var b = 0; b < ratingsData.length; b++)
@@ -158,7 +159,7 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                 }
                 else
                 {
-                    doctorRatings[doctorsName] = ratingsData[b].rating;
+                    doctorRatings[doctorID] = ratingsData[b].rating;
                     // console.log(doctorsName, ratingsData[b].rating);
                     for (let a = 0; a < data[i].insurances.length; a++)
                     {
@@ -170,10 +171,9 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                     {
                         doctorsLatitude = data[i].practices[a].lat;
                         doctorsLongitude = data[i].practices[a].lon;
-                        if (checkDuplicateLocation(doctorsName, doctorsLatitude, doctorsLongitude))
+                        if (checkDuplicateLocation(doctorID))
                         {
-                            console.log(doctorsName);
-                            displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
+                            displayMap(doctorsName, doctorRatings[doctorID], doctorsLatitude, doctorsLongitude, count+1);
                             count++;
                         }
                         
@@ -182,12 +182,15 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                 }
             }
         }
+
+        if (count == 0)
+        {
+            $('.map').append('<h1>No matches, please try a different search.</h1>')
+        }
+        
         $('#number-results').text(count + ' matches')
-        console.log(doctorRatings);
     });
 }
-
-
 
 
 // for (var i=0; i < stateNames.length; i++)
