@@ -64,7 +64,8 @@ function displayMap(name, rating, latitude, longitude, mapId)
 
 $('body').on('click','.doctor-profile', function(e){
     e.preventDefault();
-    window.open('index.html');
+    $('')
+    window.open('');
 });
 
 
@@ -124,6 +125,7 @@ function checkDuplicateLocation(doctorUniqueID)
     }
 }
 
+
 function betterDoctorsSearch(medicalCondition, userLocation)
 {
     var locationSearch = userLocation; //format is "state abbreviation-city" (i.e. fl-miami, ca-san-francisco, ny-new-york)
@@ -150,7 +152,9 @@ function betterDoctorsSearch(medicalCondition, userLocation)
             doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
             doctorID = data[i].uid;
             let ratingsData = data[i].ratings
-            
+            let doctorSpecialty = data[i].specialties[0].actor;
+            let specialtyDescription = data[i].specialties[0].description;
+
             for (var b = 0; b < ratingsData.length; b++)
             {
                 if (ratingsData[b].rating == null)
@@ -176,25 +180,23 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                             displayMap(doctorsName, doctorRatings[doctorID], doctorsLatitude, doctorsLongitude, count+1);
                             count++;
                         }
-                        
-                        // console.log(i, doctorsName, doctorsLatitude, doctorsLongitude);
                     }
                 }
             }
         }
 
+        // Logic to determine how to display the number of matched items
         if (count == 0)
         {
             $('.map').append('<h1>No matches, please try a different search.</h1>')
         }
 
-        $('#number-results').text(count + ' matches')
+        else if (count === 1)
+        {
+            $('#number-results').text(count + ' match')
+        }
+        else {
+            $('#number-results').text(count + ' matches')
+        }
     });
 }
-
-
-// for (var i=0; i < stateNames.length; i++)
-// {
-//     console.log('<a href="# value=' + states[i] + '">' + stateNames[i] +'</a>')
-    
-// }

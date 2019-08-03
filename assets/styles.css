@@ -97,8 +97,13 @@ img {
 #number-results {
     font-size: 16px;
 }
+
 input, select {
-    font-size: 12px;
+    width: 20%;
+}
+
+input, select {
+    font-size: 14px;
 }
 
 /* ----------------------------------------------Wrapper------------------------------------- */
@@ -163,18 +168,40 @@ div.wrapper h6 {
 
 
 /* ----------------------------------------------Generalise------------------------------------- */
-
-#header,
+/* #header */
 #topbar,
 #homepage,
 #breadcrumb,
 #container,
-#footer,
+/* #footer, */
 #copyright {
     display: block;
     position: relative;
     width: 960px;
-    margin: 0 auto;
+    margin: 0 auto; /* fix this to update the headers */
+}
+
+#header {
+    display: block;
+    position: relative;
+    width: 960px;
+    margin: 0 200px;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: #000000;
+}
+
+.col5 {
+    position: fixed;
+    background: #95AD19;
+    left: 0;
+    bottom: 0;
 }
 
 
@@ -511,4 +538,8 @@ div.wrapper h6 {
 #footer .flickrbox .wrap #flickr_badge_image3,
 #footer .flickrbox .wrap #flickr_badge_image6 {
     margin-right: 0;
+}
+
+img {
+    margin-bottom: 20px;
 }
