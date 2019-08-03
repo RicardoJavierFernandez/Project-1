@@ -187,7 +187,7 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         {
             $('.map').append('<h1>No matches, please try a different search.</h1>')
         }
-        
+
         $('#number-results').text(count + ' matches')
     });
 }

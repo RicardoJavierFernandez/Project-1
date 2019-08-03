@@ -83,6 +83,23 @@ img {
     clear: right;
 }
 
+/* -------------------------------------- Search area ------------------------------------------ */
+#btn-search {
+    padding: 10px 18px;
+    font-size: 14px;
+    background: #B2C629;
+}
+
+#btn-search:hover {
+    cursor: pointer;
+}
+
+#number-results {
+    font-size: 16px;
+}
+input, select {
+    font-size: 12px;
+}
 
 /* ----------------------------------------------Wrapper------------------------------------- */
 
