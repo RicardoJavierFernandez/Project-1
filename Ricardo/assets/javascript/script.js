@@ -110,11 +110,11 @@ $('#btn-search').on('click', function()
 });
 
 
-function checkDuplicateLocation(doctor)
+function checkDuplicateLocation(doctorUniqueID)
 {
-    let doctorUnique = String(doctor); // make sure to pass in the doctor's unique ID
+    let doctorUnique = String(doctorUniqueID); // make sure to pass in the doctor's unique ID
 
-    if (betterDoctorUnique.includes(doctorUnique))
+    if (betterDoctorUnique.includes(doctorUniqueID))
     {
         return false;
     }
@@ -148,6 +148,7 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         for (var i = 0; i < data.length; i++)
         {
             doctorsName = data[i].profile.first_name + ' ' + data[i].profile.last_name + ', ' + data[i].profile.title;
+            doctorID = data[i].uid;
             let ratingsData = data[i].ratings
             
             for (var b = 0; b < ratingsData.length; b++)
@@ -170,9 +171,9 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                     {
                         doctorsLatitude = data[i].practices[a].lat;
                         doctorsLongitude = data[i].practices[a].lon;
-                        if (checkDuplicateLocation(doctorsName, doctorsLatitude, doctorsLongitude))
+                        if (checkDuplicateLocation(doctorID))
                         {
-                            console.log(doctorsName);
+                            // console.log(doctorID);
                             displayMap(doctorsName, doctorsLatitude, doctorsLongitude, count+1);
                             count++;
                         }
@@ -182,12 +183,10 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                 }
             }
         }
-        $('#number-results').text(count + ' matches')
+        $('#number-results').text(count + ' match(es)')
         console.log(doctorRatings);
     });
 }
-
-
 
 
 // for (var i=0; i < stateNames.length; i++)
