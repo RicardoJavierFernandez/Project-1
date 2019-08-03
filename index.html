@@ -19,7 +19,10 @@
                 <ul>
                     <div class="search-box">
                         <a href="#"></a>
-                        <input type="search-text" name="" placeholder="Search">
+                        <select  class="conditions"></select>
+                        <input type="text" id="location-search" placeholder="Location">
+                        <select class="states"></select>
+                        <button id="btn-search">Search</button><span id="number-results"></span>
                         <a class="search-btn" href="#"></a>
                     </div>
 
@@ -41,7 +44,7 @@
         <div id="container">
             <div id="content">
                 <h1>Google Maps</h1>
-                <div id="map" alt="" width="250" height="250"></div>
+                <div class="map" alt="" width="250" height="250"></div>
             </div>
             <div id="column">
 
@@ -68,7 +71,7 @@
             <br class="clear" />
         </div>
     </div>
-    <div id="map"></div>
+    <!-- <div id="map"></div> -->
     <!-- ####################################################################################################### -->
     <div class="wrapper col4">
         <div id="footer">
