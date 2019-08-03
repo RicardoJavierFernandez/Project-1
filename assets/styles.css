@@ -38,6 +38,24 @@ input, select {
 }
 
 /* ----------------------------------------------Wrapper------------------------------------- */
+div span{
+    display: inline-block;
+
+}
+
+div span li {
+   list-style-type: none; 
+}
+
+div span strong {
+    color: #000000;
+}
+
+img {
+    margin: 0 10px 20px 0;
+    float: left;
+}
+
 
 div.wrapper {
     display: block;

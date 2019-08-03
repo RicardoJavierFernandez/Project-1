@@ -51,27 +51,16 @@ $.ajax({
     }
 });
 
-
-function displayMap(name, specialty, description, rating, latitude, longitude, mapId)
+// FUNCTION displays the google map along with the doctor's data
+function displayMap(name, phoneNumber, specialty, description, rating, latitude, longitude, mapId)
 {
     var googleMapsUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&markers=color:red%7Clabel:${mapId}%7C${latitude},${longitude}&zoom=12&size=400x400&key=${google_maps_api}`;
-    // var googleMap = $('<span>').html('<a href="" class="doctor-profile">' + name + '     Rating: ' + rating + ' / 5</a>') 
-    var googleMap = $('<span>').html(`<a class="doctor-profile" data-name="${name}" data-specialty="${specialty}" data-description="${description}">${name} Rating: ${rating} / 5</a>`) 
+    var googleMap = $('<span>').html(`<a class="doctor-profile" data-name="${name}" data-specialty="${specialty}" data-description="${description}"><strong>Name: </strong>${name}</a>`);
     googleMap.append($('<img>').attr('src', googleMapsUrl));
+    googleMap.append(`<li><a><strong>Specialty: </strong>${specialty}</a></li><li><a><strong>Rating: </strong>${rating} out of 5</a></li><li><a><strong>Phone: </strong>${phoneNumber}</a></li>`)
     $('.map').append(googleMap);
 
 };
-
-// $('body').on('click','.doctor-profile', function(e){
-//     e.preventDefault();
-//     let name = $(this).attr('data-name');
-//     let specialty = $(this).attr('data-specialty');
-//     let description = $(this).attr('data-description')
-    
-//     console.log($(this).next());
-//     console.log(name, specialty, description);
-
-// });
 
 
 function toTitleCase(word)
@@ -84,13 +73,13 @@ function toTitleCase(word)
     return wordArray.join(' ')
 }
 
-
+// FUNCTION is used to create the string needed to be passed to the BetterDoctor API
 function searchLocation(city, state)
 {
     return (state.toLowerCase() + '-' + city.toLowerCase().replace(' ', '-')); // Use replace method to make sure the city string passed to the better doctor api is in the correct format with no spaces
 }
 
-
+// EVENT clears the content of the maps div, and displays the new content of the user's search
 $('#btn-search').on('click', function()
 {    
     betterDoctorUnique = []; // Array that stores the UIDs of the doctors. Used to filter out duplicate doctors showing up.
@@ -113,7 +102,7 @@ $('#btn-search').on('click', function()
     
 });
 
-
+// FUNCTION check to make sure there are no duplicate doctor's displayed on the user's screen
 function checkDuplicateLocation(doctorUniqueID)
 {
     let doctorUnique = String(doctorUniqueID); // make sure to pass in the doctor's unique ID
@@ -129,7 +118,7 @@ function checkDuplicateLocation(doctorUniqueID)
     }
 }
 
-
+// FUNCTION to call the BetterDoctors api
 function betterDoctorsSearch(medicalCondition, userLocation)
 {
     var locationSearch = userLocation; //format is "state abbreviation-city" (i.e. fl-miami, ca-san-francisco, ny-new-york)
@@ -145,9 +134,11 @@ function betterDoctorsSearch(medicalCondition, userLocation)
         var doctorsName;
         var doctorsLatitude;
         var doctorsLongitude;
+        var doctorsPhone;
         var doctorInsurance = [];
         var doctorRatings = {};
-        console.log(response);
+        // console.log(response);
+        
         var count = 0; // Count variable used to display the number of matches
 
         // Loop through each doctor in the response data
@@ -167,8 +158,8 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                 }
                 else
                 {
-                    doctorRatings[doctorID] = ratingsData[b].rating;
-                    // console.log(doctorsName, ratingsData[b].rating);
+                    doctorRatings[doctorID] = ratingsData[b].rating; // ★ look to write function to create number of stars
+                    
                     for (let a = 0; a < data[i].insurances.length; a++)
                     {
                         doctorInsurance.push(data[i].insurances[a].insurance_plan.name);
@@ -179,9 +170,11 @@ function betterDoctorsSearch(medicalCondition, userLocation)
                     {
                         doctorsLatitude = data[i].practices[a].lat;
                         doctorsLongitude = data[i].practices[a].lon;
+                        doctorsPhone = String(data[i].practices[a].phones[0].number)
+                        doctorsPhone = doctorsPhone.substring(0, 3) + '-' + doctorsPhone.substring(3, 6) + '-' + doctorsPhone.substring(6, 11)
                         if (checkDuplicateLocation(doctorID))
-                        {
-                            displayMap(doctorsName, doctorSpecialty, specialtyDescription, doctorRatings[doctorID], doctorsLatitude, doctorsLongitude, count+1);
+                        {   
+                            displayMap(doctorsName, doctorsPhone, doctorSpecialty, specialtyDescription, doctorRatings[doctorID], doctorsLatitude, doctorsLongitude, count+1);
                             count++;
                         }
                     }
