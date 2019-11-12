@@ -54,7 +54,7 @@ input, select {
 div span{
     display: inline-block;
     width: 100%;
-    line-height: 2;
+    line-height: 3;
     vertical-align: middle;
 }
 
