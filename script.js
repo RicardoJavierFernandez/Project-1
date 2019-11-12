@@ -59,6 +59,13 @@ function displayMap(name, phoneNumber, specialty, description, rating, latitude,
     googleMap.append($('<img>').attr('src', googleMapsUrl));
     googleMap.append(`<li><a><strong>Specialty: </strong>${specialty}</a></li><li><a><strong>Rating: </strong>${rating} out of 5</a></li><li><a><strong>Phone: </strong>${phoneNumber}</a></li>`)
     $('.map').append(googleMap);
+    // var googleMap = $('<div>').addClass('containerFlex results');
+    // // var googleMap = $('<span>').html(`<a class="doctor-profile" data-name="${name}" data-specialty="${specialty}" data-description="${description}"><strong>Name: </strong>${name}</a>`)
+    // var spanMap = $('<span>').html(`<a class="doctor-profile" data-name="${name}" data-specialty="${specialty}" data-description="${description}"><strong>Name: </strong>${name}</a>`)
+    // spanMap.append($('<img>').attr('src', googleMapsUrl));
+    // spanMap.append(`<li><a><strong>Specialty: </strong>${specialty}</a></li><li><a><strong>Rating: </strong>${rating} out of 5</a></li><li><a><strong>Phone: </strong>${phoneNumber}</a></li>`)
+    // googleMap.append(spanMap);
+    // $('.map').append(googleMap);
 
 };
 

@@ -5,6 +5,7 @@ body {
     font-family: verdana, Arial, Helvetica, sans-serif;
     color: #333333;
     background-color: #FFFFFF;
+    overscroll-behavior: none;
 }
 
 img {
@@ -19,6 +20,8 @@ img {
     padding: 10px 16px;
     font-size: 16px;
     background: #B2C629;
+    border-radius: 6px;
+
 }
 
 #btn-search:hover {
@@ -26,7 +29,7 @@ img {
 }
 
 #number-results {
-    font-size: 16px;
+    font-size: 24px;
 }
 
 input, select {
@@ -37,10 +40,22 @@ input, select {
     font-size: 16px;
 }
 
+.containerFlex {
+    display: flex;
+    justify-content: center;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.results {
+    line-height: 2;
+}
+
 /* ----------------------------------------------Wrapper------------------------------------- */
 div span{
     display: inline-block;
-
+    width: 100%;
+    line-height: 2;
+    vertical-align: middle;
 }
 
 div span li {
@@ -103,8 +118,7 @@ div.wrapper h6 {
 #topbar,
 #homepage,
 #breadcrumb,
-#container,
-#copyright {
+#container {
     display: block;
     position: relative;
     width: 960px;
@@ -114,7 +128,6 @@ div.wrapper h6 {
 #header {
     display: block;
     position: relative;
-    width: 960px;
     margin: 0 150px;
 }
 
@@ -161,7 +174,6 @@ div.wrapper h6 {
 
 #header #logo h1 {
     font-size: 36px;
-    text-transform: uppercase;
 }
 
 /* ----------------------------------------------BreadCrumb------------------------------------- */
